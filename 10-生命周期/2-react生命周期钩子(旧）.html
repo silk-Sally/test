@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+        class Add extends React.Component {
+            constructor(props) {
+                console.log('Add-constructor')
+                super(props);
+            }
+            state={
+                count:0
+            }
+            componentWillMount() {
+                console.log('Add-componentWillMount')
+            }
+            render() { 
+                console.log('Add-render')
+              return(
+                <div>
+                    <h2>当前求和为：{this.state.count}</h2>
+                    <button onClick={this.add}>点我加一</button>
+                    <button onClick={this.death}>卸载</button>
+                    <button onClick={this.force}>不更改任何状态中的数据，强制更新</button>
+                </div>
+            )
+            }
+            componentDidMount() {
+                console.log('Add-componentDidMount')
+            }
+            add=()=>{
+                console.log('Add-add')
+                const {count}=this.state
+                this.setState({count:count+1})
+            }
+            //控制组件更新(组件是否更新，必须有返回值，必须为布尔值)
+            shouldComponentUpdate() {
+                console.log('Add-shouldComponentUpdate')
+                return true
+            }
+            force=()=>{
+                this.forceUpdate()
+                console.log('Force-update')
+            }
+            componentWillUpdate(){
+                console.log('Add-componentWillUpdate')
+            }
+            componentDidUpdate(){
+                console.log('Add-componentDidUpdate')
+            }
+            death=()=>{
+                console.log('Add-death')
+                ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+            }
+            componentWillUnmount(){
+                console.log('Add-componentWillUnmoun')
+            }
+        }
+        ReactDOM.render(<Add />, document.getElementById('root'))
+    </script>
+</body>
+</html>

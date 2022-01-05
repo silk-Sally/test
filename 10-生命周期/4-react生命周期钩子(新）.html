@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/javascript" src="../js/17.0.1/react.development.js"></script>
+    <script type="text/javascript" src="../js/17.0.1/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+    <script type="text/babel">
+    /*
+    新的生命周期，即将废除3个，有两个新的生命周期钩子
+    包含will(componentWillMount/componentWillReceiveProps/componentWillUpdate)的前面要加UNSEFE_ 
+    除了componentWillUnmount
+    */
+        class Add extends React.Component {
+            constructor(props) {
+                console.log('Add-constructor')
+                super(props);
+            }
+            state={
+                count:0
+            }
+
+            //第一个新的//静态方法//若state的值在任何情况都取决于props，则可以使用此钩子（也可用构造器）
+            static getDerivedStateFromProps(props) {
+                console.log('getDerivedStateFromProps',props)
+                return null
+            }
+
+            // UNSAFE_componentWillMount() {
+            //     console.log('Add-componentWillMount')
+            // }
+
+            render() { 
+                console.log('Add-render')
+              return(
+                <div>
+                    <h2>当前求和为：{this.state.count}</h2>
+                    <button onClick={this.add}>点我加一</button>
+                    <button onClick={this.death}>卸载</button>
+                    <button onClick={this.force}>不更改任何状态中的数据，强制更新</button>
+                </div>
+            )
+            }
+            componentDidMount() {
+                console.log('Add-componentDidMount')
+            }
+            add=()=>{
+                console.log('Add-add')
+                const {count}=this.state
+                this.setState({count:count+1})
+            }
+            //控制组件更新(组件是否更新，必须有返回值，必须为布尔值)
+            shouldComponentUpdate() {
+                console.log('Add-shouldComponentUpdate')
+                return true
+            }
+            //强制更新
+            force=()=>{
+                this.forceUpdate()
+                console.log('Force-update')
+            }
+
+            // UNSAFE_componentWillUpdate(){
+            //     console.log('Add-componentWillUpdate')
+            // }
+
+            //第二个新的钩子//在更新之前获取快照
+            getSnapshotBeforeUpdate() { 
+                console.log('Add-getSnapshotBeforeUpdate')
+                return  null
+            }
+
+            componentDidUpdate(){
+                console.log('Add-componentDidUpdate')
+            }
+            death=()=>{
+                console.log('Add-death')
+                ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+            }
+            componentWillUnmount(){
+                console.log('Add-componentWillUnmoun')
+            }
+        }
+        ReactDOM.render(<Add name="tom"/>, document.getElementById('root'))
+    </script>
+</body>
+</html>

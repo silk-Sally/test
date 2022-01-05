@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr1=[1,3,5,7]
+        let arr2=[2,4,6,8]
+        console.log(...arr1)
+        let arr3=[...arr1, ...arr2]
+        console.log(...arr3)
+        function sum(...num){
+            return num.reduce((pre,currentValue)=>{//reduce返回数组
+                return pre + currentValue
+            })
+        }
+        console.log(sum(1,2,3,4,5))
+
+        let person ={name:'tom',age:18}
+        let person2={...person,name:'jack'}
+        console.log(person2)
+        console.log(...person2)//报错，（里面是对象）
+    </script>
+</body>
+</html>

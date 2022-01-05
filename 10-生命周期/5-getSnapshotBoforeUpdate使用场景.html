@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻滚动</title>
+    <style>
+        .news-list {
+            background-color: #3679a7;
+            height: 150px;
+            width: 150px;
+            overflow: auto;
+        }
+        .news{
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+        class NewsList extends React.Component {
+            state={
+                newsArr:[]
+            }
+            componentDidMount() {
+                setInterval(() =>{
+                    const {newsArr}=this.state
+                    const news='新闻'+(newsArr.length+1)
+                    this.setState({newsArr: [news,...newsArr]})
+                },1000)
+            }
+            render() {
+                return(
+                    <div className="news-list" ref={(c)=>{this.div=c}}>
+                        {
+                            this.state.newsArr.map((n,index)=>{
+                                return <div key={index} className="news">{n}</div>
+                            })
+                        }
+                    </div>
+                )
+            }
+            getSnapshotBeforeUpdate() {
+                console.log(this.div)
+                return this.div.scrollHeight
+            }
+            componentDidUpdate(prevProps, prevState,height) {
+                console.log(height)
+                this.div.scrollTop += this.div.scrollHeight-height
+                
+            }
+        }
+        ReactDOM.render(<NewsList />, document.getElementById('root'))
+    </script>
+</body>
+</html>

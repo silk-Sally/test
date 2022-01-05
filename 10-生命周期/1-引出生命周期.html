@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+        class Life extends React.Component {
+            state={
+                opacity:1
+            }
+            //组件挂载完毕调用（只调用一次）(常用：一般做初始化的事情,开启定时器，发送消息，发送网络请求)
+            componentDidMount(){
+                this.timer=setInterval(() => {
+                   //获取原状态
+                   let {opacity}=this.state;
+                   opacity-=0.1
+                   if (opacity<=0)opacity=1
+                   //设置新的透明度
+                   this.setState({opacity})
+                },200)
+            }
+            //初始化渲染和状态改变时调用
+           render() { 
+               return(
+                   <div ref={(c)=>this.div=c}>
+                        <h2 style={{opacity:this.state.opacity}}>透明度从1到0</h2>
+                        <button onClick={this.death}>消失</button>
+                    </div>
+               )
+            }
+            death=()=>{
+                // this.div.style.display="none"//用ref={(c)=>this.div=c}实现
+                //卸载组件
+                ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+            }
+            //组件将要被卸载(常用：关闭定时器，取消订阅消息)
+            componentWillUnmount(){
+                //清楚定时器
+                clearInterval(this.timer)
+            }
+        }
+        ReactDOM.render(<Life />, document.getElementById('root'))
+    </script>
+</body>
+</html>

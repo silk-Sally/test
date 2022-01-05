@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+    class Person extends React.Component {
+        state={
+            persons: [
+                {id:1,name: 'John',age: 18},
+                {id:2,name: 'jack',age: 19},
+            ],
+        }
+        render() {
+            return (
+                <div>
+                    <h2>展示人员信息</h2>
+                    <button onClick={this.add}>添加一个tom</button>
+                    <ul>
+                        {
+                            this.state.persons.map((n)=>{
+                                return <li key={n.id}>{n.name}---{n.age}<input type="text"/></li>
+                            })
+                        }
+                    </ul>   
+                </div>
+                
+            )
+        }
+        add=()=>{
+            const {persons}=this.state
+            const p={id:persons.length+1,name:'tom',age:'20'}
+            this.setState({persons:[p,...persons]})
+        }
+    }
+    ReactDOM.render(<Person/>, document.getElementById('root'))
+    </script>
+</body>
+</html>
